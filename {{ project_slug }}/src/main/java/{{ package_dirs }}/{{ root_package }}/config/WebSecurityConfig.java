@@ -1,8 +1,8 @@
-package com.imgarena.sherlock.config;
+package com.imgarena.{{ root_package }}.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-import com.imgarena.sherlock.config.filter.TokenAuthenticationFilter;
+import com.imgarena.{{ root_package }}.config.filter.TokenAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -1,12 +1,12 @@
-package com.imgarena.sherlock.filters;
+package com.imgarena.{{ root_package }}.filters;
 
-import static com.imgarena.sherlock.HttpHeaderFields.RID_HEADER;
-import static com.imgarena.sherlock.LogMetadataFields.CLIENT_HTTP_RESPONSE_TIME;
-import static com.imgarena.sherlock.LogMetadataFields.HTTP_RESPONSE_STATUS;
-import static com.imgarena.sherlock.MdcKeys.HTTP_REQUEST_METHOD_MDC_KEY;
-import static com.imgarena.sherlock.MdcKeys.HTTP_REQUEST_REMOTE_HOST_MDC_KEY;
-import static com.imgarena.sherlock.MdcKeys.HTTP_REQUEST_URI_MDC_KEY;
-import static com.imgarena.sherlock.MdcKeys.RID_MDC_KEY;
+import static com.imgarena.{{ root_package }}.HttpHeaderFields.RID_HEADER;
+import static com.imgarena.{{ root_package }}.LogMetadataFields.CLIENT_HTTP_RESPONSE_TIME;
+import static com.imgarena.{{ root_package }}.LogMetadataFields.HTTP_RESPONSE_STATUS;
+import static com.imgarena.{{ root_package }}.MdcKeys.HTTP_REQUEST_METHOD_MDC_KEY;
+import static com.imgarena.{{ root_package }}.MdcKeys.HTTP_REQUEST_REMOTE_HOST_MDC_KEY;
+import static com.imgarena.{{ root_package }}.MdcKeys.HTTP_REQUEST_URI_MDC_KEY;
+import static com.imgarena.{{ root_package }}.MdcKeys.RID_MDC_KEY;
 import static java.time.temporal.ChronoUnit.MILLIS;
 import static net.logstash.logback.marker.Markers.appendEntries;
 

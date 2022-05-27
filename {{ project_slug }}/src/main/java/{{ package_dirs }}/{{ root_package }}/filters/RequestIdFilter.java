@@ -1,7 +1,7 @@
-package com.imgarena.sherlock.filters;
+package com.imgarena.{{ root_package }}.filters;
 
-import static com.imgarena.sherlock.HttpHeaderFields.RID_HEADER;
-import static com.imgarena.sherlock.MdcKeys.RID_MDC_KEY;
+import static com.imgarena.{{ root_package }}.HttpHeaderFields.RID_HEADER;
+import static com.imgarena.{{ root_package }}.MdcKeys.RID_MDC_KEY;
 
 import java.io.IOException;
 import java.util.Optional;

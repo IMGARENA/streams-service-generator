@@ -1,4 +1,4 @@
-package com.imgarena.sherlock.config.filter;
+package com.imgarena.{{ root_package }}.config.filter;
 
 import static java.util.Collections.singletonList;
 

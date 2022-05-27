@@ -1,8 +1,8 @@
-package com.imgarena.sherlock.log;
+package com.imgarena.{{ root_package }}.log;
 
 import static net.logstash.logback.marker.Markers.appendEntries;
 
-import com.imgarena.sherlock.LogMetadataFields;
+import com.imgarena.{{ root_package }}.LogMetadataFields;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;

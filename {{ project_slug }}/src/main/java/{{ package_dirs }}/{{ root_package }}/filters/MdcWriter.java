@@ -1,4 +1,4 @@
-package com.imgarena.sherlock.filters;
+package com.imgarena.{{ root_package }}.filters;
 
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;

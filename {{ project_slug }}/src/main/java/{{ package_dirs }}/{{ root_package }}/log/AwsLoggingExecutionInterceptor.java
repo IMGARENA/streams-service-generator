@@ -1,7 +1,7 @@
-package com.imgarena.sherlock.log;
+package com.imgarena.{{ root_package }}.log;
 
-import static com.imgarena.sherlock.log.HttpClientRequestMetadata.httpClientRequestLogMetadata;
-import static com.imgarena.sherlock.log.HttpClientRequestMetadata.httpClientResponseLogMetadata;
+import static com.imgarena.{{ root_package }}.log.HttpClientRequestMetadata.httpClientRequestLogMetadata;
+import static com.imgarena.{{ root_package }}.log.HttpClientRequestMetadata.httpClientResponseLogMetadata;
 
 import java.net.URI;
 import java.time.Instant;

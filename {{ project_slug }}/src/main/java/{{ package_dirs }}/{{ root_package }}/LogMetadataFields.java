@@ -1,4 +1,4 @@
-package com.imgarena.sherlock;
+package com.imgarena.{{ root_package }};
 
 public class LogMetadataFields {
 

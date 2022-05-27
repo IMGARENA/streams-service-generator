@@ -1,4 +1,4 @@
-package com.imgarena.sherlock.filters;
+package com.imgarena.{{ root_package }}.filters;
 
 import org.springframework.core.Ordered;
 

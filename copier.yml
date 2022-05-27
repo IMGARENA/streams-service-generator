@@ -16,6 +16,11 @@ base_package:
   help: Base package
   default: com.imgarena
 
+root_package:
+  type: str
+  help: Root of hierarchy
+  default: "{{ project_name.rpartition(' ')[2]|lower()|trim()}}"
+
 server_port:
   type: int
   help: HTTP Port

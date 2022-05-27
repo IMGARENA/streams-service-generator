@@ -1,6 +1,6 @@
-package com.imgarena.sherlock.exceptionhandlers;
+package com.imgarena.{{ root_package }}.exceptionhandlers;
 
-import com.imgarena.sherlock.dto.ErrorResponse;
+import com.imgarena.{{ root_package }}.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
