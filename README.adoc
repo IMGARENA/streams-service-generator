@@ -36,7 +36,7 @@ Before generating the project,copier will ask for a few parameters, proposing a 
 
 |project_slug
 |The name of the project without spaces, or underscores. This is what is used naming the project in all files.
-|Will be inferred from the project_name, ie. *dge-sherlock*
+|Will be derived from the project_name, ie. *dge-sherlock*
 
 |project_description
 |A text describing the project.
@@ -47,15 +47,19 @@ Before generating the project,copier will ask for a few parameters, proposing a 
 |*com.imgarena* is the default
 
 |package_dirs
-|To create the directory structure
-|*com/imgarena* is the default; inferred from base_package.
+|To create the directory structure.
+|*com/imgarena* is the default; derived from base_package.
+
+|root_package
+|The root package for this service.
+|Default is last word of project_name, ie. sherlock.
 
 |server_port
 |HTTP port for the service
-|
+|Should be an integer value.
 
 |management_server_port
-|The management HTTP port where the livenes and readiness probes will listen.
+|The management HTTP port where the liveness and readiness probes will listen.
 |Default is inferred from server_port +1
 |===
 
