@@ -1,0 +1,78 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ project_slug }}
+  namespace: dge
+  annotations:
+    fluxcd.io/automated: "true"
+    fluxcd.io/tag.dge-sherlock: "semver: >= 1.0.0"
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: {{ project_slug }}
+  template:
+    metadata:
+      labels:
+        app: {{ project_slug }}
+        team: streams
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone    # Spread across AZs as evenly as possible
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: {{ project_slug }}
+              release: {{ project_slug }}
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname   # Must be spreaded across multiple nodes
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: {{ project_slug }}
+              release: {{ project_slug }}
+      containers:
+        - image: 724428741115.dkr.ecr.eu-west-1.amazonaws.com/imgarena/streams/{{ project_slug }}:1.0.0
+          name: {{ project_slug }}
+          imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: "10m"
+              memory: 860Mi
+            limits:
+              memory: 860Mi
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:+UseContainerSupport -XX:InitialRAMPercentage=50.0 -XX:MaxRAMPercentage=50.0\
+            \ -XX:+UseG1GC -XX:ActiveProcessorCount=2 -Xmx256M"
+            - name: MANAGEMENT_SERVER_PORT
+              value: "{{management_server_port}}"
+          ports:
+            - containerPort: { server_port }
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            timeoutSeconds: 5
+            initialDelaySeconds: 18
+            httpGet:
+              port: {{management_server_port}}
+              path: "/actuator/health/readiness"
+          livenessProbe:
+            failureThreshold: 5
+            timeoutSeconds: 5
+            initialDelaySeconds: 18
+            httpGet:
+              port: {{management_server_port}}
+              path: "/actuator/health/liveness"
+      serviceAccountName: {{ project_slug }}
+      securityContext:
+        fsGroup: 65534

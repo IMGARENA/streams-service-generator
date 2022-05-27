@@ -1,0 +1,67 @@
+= Service Generator
+
+
+
+
+New services projects can be created using the tool https://copier.readthedocs.io/en/stable/[_copier_] and a _copier_ template.
+
+== Installation
+
+Install _copier_, following the instructions: https://copier.readthedocs.io/en/stable/#installation (requires Python 3.8+)
+
+== Usage
+
+Once installed, it can be used in the following way:
+
+Clone the template:
+
+`git clone git@github.com:IMGARENA/streams-service-generator.git`
+
+cd where you want to create the service
+
+`copier streams-service-generator .`
+
+
+[NOTE] _streams-service-generator_ refers  to the relative folder where the template was checked out from github.
+
+Before generating the project,copier will ask for a few parameters, proposing a default if possible.
+
+
+|===
+|Parameter |Description |Notes
+
+|project_name
+|The name of the service properly written.
+|The name of the service, ie. *DGE Sherlock*
+
+|project_slug
+|The name of the project without spaces, or underscores. This is what is used naming the project in all files.
+|Will be inferred from the project_name, ie. *dge-sherlock*
+
+|project_description
+|A text describing the project.
+|Will go in documents where a full description is needed, ie. *Orchestrator for managing AWS Elemental Streaming Pipelines*
+
+|base_package
+|The base package where the service will be.
+|*com.imgarena* is the default
+
+|package_dirs
+|To create the directory structure
+|*com/imgarena* is the default; inferred from base_package.
+
+|server_port
+|HTTP port for the service
+|
+
+|management_server_port
+|The management HTTP port where the livenes and readiness probes will listen.
+|Default is inferred from server_port +1
+|===
+
+Since our services are going to evolve and include more features and/or changes, anybody can modify this template and update it for the latest service.
+
+
+== Updating a service
+
+It is possible to use copier to update a service if the template changes, but this will requiere a bit more of investigation.

@@ -1,0 +1,34 @@
+project_name:
+  type: str
+  help: "What is the service name? For example: DGE Sherlock"
+
+project_slug:
+  type: str
+  help: Name used in the structure of the service
+  default: "{{ project_name.lower()|replace(' ', '-')|replace('.', '-')|trim() }}"
+
+project_description:
+  type: str
+  help: A description for the service
+
+base_package:
+  type: str
+  help: Base package
+  default: com.imgarena
+
+server_port:
+  type: int
+  help: HTTP Port
+  placeholder: 8888
+
+management_server_port:
+  type: int
+  default: "{{ server_port + 1}}"
+
+
+package_dirs:
+  type: str
+  default: "{{ base_package.replace('.', '/') }}"
+
+
+_templates_suffix: ""

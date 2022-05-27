@@ -3,42 +3,48 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>parent</artifactId>
-        <groupId>{{ cookiecutter.base_package }}</groupId>
-        <version>0.0.1</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>{{ cookiecutter.project_slug }}</artifactId>
+    <artifactId>{{ project_slug }}</artifactId>
     <packaging>pom</packaging>
-    <name>{{ cookiecutter.project_slug }} Parent</name>
-    <description>Parent POM for {{ cookiecutter.project_slug }} services</description>
+    <name>{{ project_name }}</name>
+    <description>{{ project_description }}</description>
     <version>${revision}</version>
 
     <properties>
-        <revision>0.0.1-SNAPSHOT</revision>
-        <dockerRegistry>streams/{{ cookiecutter.project_slug }}</dockerRegistry>
+        <java.version>17</java.version>
+        <revision>1.0.0</revision>
+        <dockerRegistry>streams</dockerRegistry>
+        <google-format.version>1.15.0</google-format.version>
+        <logstash.encoder.version>7.0.1</logstash.encoder.version>
+        <spotless.version>2.22.5</spotless.version>
+        <springdoc.version>1.6.8</springdoc.version>
+        <dge-commons.version>2.0.1</dge-commons.version>
     </properties>
 
-    <modules>
-        <module>{{ cookiecutter.project_slug }}-client</module>
-        <module>{{ cookiecutter.project_slug }}-main</module>
-    </modules>
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>IMG Arena Github Packages</name>
+            <url>https://maven.pkg.github.com/IMGARENA/*</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>{{ cookiecutter.base_package }}</groupId>
+                <groupId>software.amazon.awssdk</groupId>
                 <artifactId>bom</artifactId>
+                <version>2.17.166</version>
                 <type>pom</type>
                 <scope>import</scope>
-                <version>0.0.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -70,6 +76,30 @@
             <artifactId>swagger-parser</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sso</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sts</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash.encoder.version}</version>
+        </dependency>
+
         <!-- Test Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -90,5 +120,32 @@
             <artifactId>json-unit-assertj</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <name>${dockerRegistry}/${project.artifactId}</name>
+                    </image>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless.version}</version>
+                <configuration>
+                    <java>
+                        <googleJavaFormat>
+                            <version>${google-format.version}</version>
+                            <style>GOOGLE</style>
+                        </googleJavaFormat>
+                    </java>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

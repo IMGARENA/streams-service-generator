@@ -1,9 +1,9 @@
-![main-test-release](https://github.com/IMGARENA/dge-sherlock/actions/workflows/main-test-release.yaml/badge.svg)
+![main-test-release](https://github.com/IMGARENA/{{ project_slug }}/actions/workflows/main-test-release.yaml/badge.svg)
 ![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)
 
-# dge-sherlock
+# {{ project_name }}
 
-Orchestrator for managing AWS Elemental Streaming Pipelines
+{{ project_description}}
 
 ## Local Execution
 ### Command line
@@ -20,7 +20,7 @@ aws sso login
 ./run.sh
 ```
 
-The Swagger will be available at - http://localhost:9221/swagger-ui/index.html
+The Swagger will be available at - http://localhost:{{ server_port }}/swagger-ui/index.html
 
 ## Authorisation
 
