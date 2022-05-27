@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: streams-{{ project_slug }}-streams-dev
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: streams
+  source:
+    repoURL: git@github.com:IMGARENA/kubernetes.git
+    targetRevision: master
+    path: streams-{{ project_slug }}/k8s/streams-dev
+  destination:
+    name: streams-dev
+    namespace: dge
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - PrunePropagationPolicy=background
+---
+# Duplicate here for the other environments

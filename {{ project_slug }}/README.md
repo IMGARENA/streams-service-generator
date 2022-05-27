@@ -47,27 +47,6 @@ Is the base64 encoded token for the following authz details.
 }
 ```
 
-#### Example requests (replace pipeline key & akamai url)
-```shell
-curl --request PUT \
-  --url http://localhost:9221/api/v1/pipelines/eu-west-1/<your-pipeline-key-here> \
-  --header 'Content-Type: application/json' \
-  --header 'x-base64-token: ewogICAgIm5hbWUiOiAiU2hlcmxvY2sgSG9sbWVzIiwKICAgICJpZCI6IDIyMTgsCiAgICAicm9sZSI6ICJTVVBFUl9BRE1JTiIsCiAgICAiZW1haWwiOiAic2hlcmxvY2suaG9sbWVzQGltZ2FyZW5hLmNvbSIsCiAgICAib3BlcmF0b3JJZCI6IG51bGwsCiAgICAicGVybWlzc2lvbnMiOiBbXQp9' \
-  --data '{
-	"destinationUrls": {
-		"primary": "https://p-ep2023903.i.akamaientrypoint.net/2023903/{EVENT_ANGLE}/playlist"
-	}
-}'
-```
-
-```shell
-curl --request DELETE \
-  --url http://localhost:9221/api/v1/pipelines/eu-west-1/<your-pipeline-key-here> \
-  --header 'Content-Type: application/json' \
-  --header 'x-base64-token: ewogICAgIm5hbWUiOiAiU2hlcmxvY2sgSG9sbWVzIiwKICAgICJpZCI6IDIyMTgsCiAgICAicm9sZSI6ICJTVVBFUl9BRE1JTiIsCiAgICAiZW1haWwiOiAic2hlcmxvY2suaG9sbWVzQGltZ2FyZW5hLmNvbSIsCiAgICAib3BlcmF0b3JJZCI6IG51bGwsCiAgICAicGVybWlzc2lvbnMiOiBbXQp9'
-```
-
-
 
 ## Code Formatting
 
