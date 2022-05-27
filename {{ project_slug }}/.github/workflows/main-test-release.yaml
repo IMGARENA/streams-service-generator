@@ -1,0 +1,156 @@
+name: main test & release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  test_release:
+    name: Test & release
+    strategy:
+      matrix:
+        os: [ self-hosted-ubuntu-2004 ]
+        java-version: [ 17 ]
+        node-version: [ 14 ]
+    runs-on: ${{ matrix.os }}
+    outputs:
+      new-release-published: ${{ steps.semantic.outputs.new_release_published }}
+      new-release-version: ${{ steps.semantic.outputs.new_release_version }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.ACTION_GITHUB_TOKEN }}
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: ${{ matrix.java-version }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2repo
+
+      - name: Formatting check
+        run: mvn -B spotless:check
+
+      - name: Build & test
+        run: mvn -B clean verify
+
+      - name: Release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          extra_plugins: |
+            @semantic-release/git
+
+  docker:
+    name: Create & publish Docker image
+    needs: [ test_release ]
+    if: needs.test_release.outputs.new-release-published == 'true'
+    strategy:
+      matrix:
+        os: [ self-hosted-ubuntu-2004 ]
+        java-version: [ 17 ]
+    runs-on: ${{ matrix.os }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.ACTION_GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: ${{ matrix.java-version }}
+
+      - name: Setup AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: eu-west-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registries: 724428741115
+
+      - name: Set environment variables
+        run: |
+          echo "ecr_registry=${{ steps.login-ecr.outputs.registry }}/imgarena/streams/dge-sherlock" >> $GITHUB_ENV
+
+      - name: Restore Maven cache
+        uses: actions/cache@v2
+        with:
+          path: /home/runner/.m2/repository
+          key: ${{ runner.os }}-m2repo-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2repo
+
+      - name: Restore Docker registry cache
+        uses: actions/cache@v2
+        with:
+          path: /tmp/docker-registry
+          key: ${{ runner.os }}-docker-registry-${{ github.workflow }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-docker-registry-${{ github.workflow }}
+
+      - name: Start local registry
+        run: |
+          docker run -d -p 9005:9005 --restart=always --name registry -v /tmp/docker-registry:/var/lib/registry registry:2 && npx wait-on tcp:9005
+          docker pull localhost:9005/streams/dge-sherlock || true
+
+      - name: Build Docker image with Spring Boot Maven plugin
+        run: |
+          mvn -B spring-boot:build-image -DskipTests=true -Drevision=${{ needs.test_release.outputs.new-release-version }}
+          docker tag streams/dge-sherlock:latest ${{ env.ecr_registry }}:${{ needs.test_release.outputs.new-release-version }}
+
+      - name: Cache images
+        run: |
+          docker tag streams/dge-sherlock localhost:9005/dge-sherlock && docker push localhost:9005/streams/dge-sherlock || true
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.ecr_registry }}:${{ needs.test_release.outputs.new-release-version }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Publish Docker image
+        id: publish
+        run: |
+          docker push ${{ env.ecr_registry }}:${{ needs.test_release.outputs.new-release-version }}
+          echo "::set-output name=deployed::true"
+
+      - name: Send Slack notification
+        if: steps.publish.outputs.deployed
+        uses: IMGARENA/slack_notify@v1.1.3
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_ICON_URL: 'https://github.githubassets.com/images/modules/logos_page/Octocat.png'
+          SLACK_USERNAME: 'GitHub'
+          USE_MARKDOWN: true
+          COLOR: '#109c00'
+          BODY: "A new version of `${{ github.repository }}` has been released! :partyparrot:\nCurrent version is *${{ needs.test_release.outputs.new-release-version }}*"
