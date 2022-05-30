@@ -1,3 +1,3 @@
-package com.imgarena.{{ root_package }}.dto;
+package {{ base_package }}.{{ root_package }}.dto;
 
 public record ErrorResponse(String error) {}

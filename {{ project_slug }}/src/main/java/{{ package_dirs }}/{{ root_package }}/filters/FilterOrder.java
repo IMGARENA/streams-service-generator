@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }}.filters;
+package {{ base_package }}.{{ root_package }}.filters;
 
 import org.springframework.core.Ordered;
 

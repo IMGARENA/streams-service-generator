@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }}.log;
+package {{ base_package }}.{{ root_package }}.log;
 
 import static com.imgarena.{{ root_package }}.log.HttpClientRequestMetadata.httpClientRequestLogMetadata;
 import static com.imgarena.{{ root_package }}.log.HttpClientRequestMetadata.httpClientResponseLogMetadata;

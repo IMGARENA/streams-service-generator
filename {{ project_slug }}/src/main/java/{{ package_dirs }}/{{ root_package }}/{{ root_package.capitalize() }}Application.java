@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }};
+package {{ base_package }}.{{ root_package }};
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

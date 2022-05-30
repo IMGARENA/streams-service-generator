@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }}.log;
+package {{ base_package }}.{{ root_package }}.log;
 
 import static net.logstash.logback.marker.Markers.appendEntries;
 

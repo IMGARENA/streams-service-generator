@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }}.config;
+package {{ base_package }}.{{ root_package }}.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 

@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }}.filters;
+package {{ base_package }}.{{ root_package }}.filters;
 
 import static com.imgarena.{{ root_package }}.HttpHeaderFields.RID_HEADER;
 import static com.imgarena.{{ root_package }}.LogMetadataFields.CLIENT_HTTP_RESPONSE_TIME;

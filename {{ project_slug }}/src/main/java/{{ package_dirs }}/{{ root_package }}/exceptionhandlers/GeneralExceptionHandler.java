@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }}.exceptionhandlers;
+package {{ base_package }}.{{ root_package }}.exceptionhandlers;
 
 import com.imgarena.{{ root_package }}.dto.ErrorResponse;
 import org.slf4j.Logger;

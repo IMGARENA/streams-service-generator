@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }}.config.filter;
+package {{ base_package }}.{{ root_package }}.config.filter;
 
 import static java.util.Collections.singletonList;
 

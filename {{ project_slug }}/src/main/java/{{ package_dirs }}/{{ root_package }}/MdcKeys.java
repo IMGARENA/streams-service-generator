@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }};
+package {{ base_package }}.{{ root_package }};
 
 public final class MdcKeys {
   public static final String RID_MDC_KEY = "rid";

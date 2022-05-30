@@ -1,4 +1,4 @@
-package com.imgarena.{{ root_package }}.log;
+package {{ base_package }}.{{ root_package }}.log;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
