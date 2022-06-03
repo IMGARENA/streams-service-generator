@@ -93,6 +93,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.endeavorco.dge</groupId>
             <artifactId>dge-commons</artifactId>
             <version>${dge-commons.version}</version>

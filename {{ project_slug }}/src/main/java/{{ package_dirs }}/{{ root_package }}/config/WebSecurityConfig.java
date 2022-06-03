@@ -30,7 +30,8 @@ public class WebSecurityConfig {
                     .antMatchers(
                         "/actuator/health",
                         "/actuator/health/liveness",
-                        "/actuator/health/readiness")
+                        "/actuator/health/readiness",
+                        "/api/v1/ping")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
