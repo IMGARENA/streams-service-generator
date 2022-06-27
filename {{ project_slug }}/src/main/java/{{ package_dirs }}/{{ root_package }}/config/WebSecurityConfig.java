@@ -31,7 +31,9 @@ public class WebSecurityConfig {
                         "/actuator/health",
                         "/actuator/health/liveness",
                         "/actuator/health/readiness",
-                        "/api/v1/ping")
+                        "/api/v1/ping",
+                        "/swagger-ui/*",
+                        "/v3/api-docs/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated())
