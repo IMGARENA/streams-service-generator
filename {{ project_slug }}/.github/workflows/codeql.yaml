@@ -41,8 +41,6 @@ jobs:
         with:
           distribution: adopt
           java-version: ${{ matrix.java-version }}
-          cache: maven
-
 
       - name: Build & Test
         run: mvn -B clean package -Plocal
