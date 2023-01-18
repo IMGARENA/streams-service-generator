@@ -43,7 +43,7 @@ jobs:
           java-version: ${{ matrix.java-version }}
 
       - name: Build & Test
-        run: mvn -B clean package -Plocal
+        run: mvn -B clean verify
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
