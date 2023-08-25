@@ -25,7 +25,7 @@
         <logstash.encoder.version>7.0.1</logstash.encoder.version>
         <spotless.version>2.22.5</spotless.version>
         <springdoc.version>1.6.8</springdoc.version>
-        <dge-commons.version>2.0.1</dge-commons.version>
+        <dge-commons.version>3.0.0</dge-commons.version>
     </properties>
 
     <repositories>
