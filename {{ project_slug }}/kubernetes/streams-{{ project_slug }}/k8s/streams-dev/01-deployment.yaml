@@ -6,7 +6,7 @@ metadata:
   namespace: dge
   annotations:
     fluxcd.io/automated: "true"
-    fluxcd.io/tag.dge-sherlock: "semver: >= 1.0.0"
+    fluxcd.io/tag.{{ project_slug }}: "semver: >= 1.0.0"
 spec:
   replicas: 1
   revisionHistoryLimit: 1
@@ -18,6 +18,8 @@ spec:
       labels:
         app: {{ project_slug }}
         team: streams
+        department: technology
+        environment: streams-dev
     spec:
       topologySpreadConstraints:
         - maxSkew: 1
