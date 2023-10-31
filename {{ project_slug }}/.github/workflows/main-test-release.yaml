@@ -115,7 +115,7 @@ jobs:
 
       - name: Build Docker image with Spring Boot Maven plugin
         run: |
-          ./mvn -B spring-boot:build-image -DskipTests=true -Drevision={{ "${{ needs.test_release.outputs.new-release-version }}" }}
+          ./mvnw -B spring-boot:build-image -DskipTests=true -Drevision={{ "${{ needs.test_release.outputs.new-release-version }}" }}
           docker tag streams/{{ project_slug }}:latest {{ "${{ env.ecr_registry }}" }}:{{ "${{ needs.test_release.outputs.new-release-version }}" }}
 
       - name: Cache images
