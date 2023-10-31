@@ -2,28 +2,26 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
   schedule:
     - cron: '22 3 * * 2'
 
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ self-hosted-ubuntu-2204 ]
+        java-version: [ 17 ]
+        language: [ 'java' ]
+    runs-on: ${{ matrix.os }}
     permissions:
       actions: read
       contents: read
       security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [self-hosted-ubuntu-2004]
-        java-version: [17]
-        language: [ 'java' ]
-
     env:
       GITHUB_TOKEN: ${{ secrets.ACTION_GITHUB_TOKEN }}
 
@@ -36,16 +34,18 @@ jobs:
         with:
           languages: ${{ matrix.language }}
 
-      - name: Setup JDK
+      - name: Setup JDK & Maven caching
         uses: actions/setup-java@v3
         with:
-          distribution: adopt
+          distribution: temurin
           java-version: ${{ matrix.java-version }}
+          cache: maven
 
-      - name: Build & Test
-        run: mvn -B clean package -Plocal
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:${{matrix.language}}"
+
