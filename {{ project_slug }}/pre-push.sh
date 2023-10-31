@@ -2,9 +2,9 @@
 
 set -e
 
-mvn spotless:apply
+./mvnw spotless:apply
 
-mvn clean verify
+./mvnw clean verify
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'

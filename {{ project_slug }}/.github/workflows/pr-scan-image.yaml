@@ -34,7 +34,7 @@ jobs:
           cache: maven
 
       - name: Build Docker image with Spring Boot Maven plugin
-        run: mvn -B spring-boot:build-image -DskipTests=true
+        run: ./mvnw -B spring-boot:build-image -DskipTests=true
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
