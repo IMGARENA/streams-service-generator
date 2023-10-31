@@ -45,10 +45,10 @@ jobs:
           node-version: {{ "${{ matrix.node-version }}" }}
 
       - name: Formatting check
-        run: mvn -B spotless:check
+        run: ./mvnw -B spotless:check
 
       - name: Build & test
-        run: mvn -B clean verify
+        run: ./mvnw -B clean verify
 
       - name: Release
         id: semantic
@@ -65,6 +65,7 @@ jobs:
       matrix:
         os: [ self-hosted-ubuntu-2204 ]
         java-version: [ 17 ]
+        node-version: [ 18 ]
     runs-on: {{ "${{ matrix.os }}" }}
     env:
       GITHUB_TOKEN: {{ "${{ secrets.ACTION_GITHUB_TOKEN }}" }}
@@ -79,6 +80,11 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java-version }}
           cache: maven
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: Setup AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -109,7 +115,7 @@ jobs:
 
       - name: Build Docker image with Spring Boot Maven plugin
         run: |
-          mvn -B spring-boot:build-image -DskipTests=true -Drevision={{ "${{ needs.test_release.outputs.new-release-version }}" }}
+          ./mvn -B spring-boot:build-image -DskipTests=true -Drevision={{ "${{ needs.test_release.outputs.new-release-version }}" }}
           docker tag streams/{{ project_slug }}:latest {{ "${{ env.ecr_registry }}" }}:{{ "${{ needs.test_release.outputs.new-release-version }}" }}
 
       - name: Cache images
@@ -131,7 +137,7 @@ jobs:
         id: publish
         run: |
           docker push {{ "${{ env.ecr_registry }}" }}:{{ "${{ needs.test_release.outputs.new-release-version }}" }}
-          echo "::set-output name=deployed::true"
+          echo "deployed=true" >> $GITHUB_OUTPUT
 
       - name: Send Slack notification
         if: steps.publish.outputs.deployed

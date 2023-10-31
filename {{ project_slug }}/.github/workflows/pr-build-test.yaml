@@ -34,6 +34,11 @@ jobs:
           java-version: ${{ matrix.java-version }}
           cache: maven
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
       - name: Formatting check
         run: ./mvnw -B spotless:check
 

@@ -3,7 +3,7 @@ name: "Trivy"
 on:
   workflow_dispatch:
   schedule:
-    - cron: '15 5 * * 1-5'
+    - cron: '20 5 * * 1-5'
 jobs:
   trivy:
     name: Run Trivy Scanner
