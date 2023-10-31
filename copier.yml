@@ -28,8 +28,7 @@ package_dirs:
 server_port:
   type: int
   help: HTTP Port
-  placeholder: 8888
-
+  default: 8888
 
 management_server_port:
   type: int

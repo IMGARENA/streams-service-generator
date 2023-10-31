@@ -19,7 +19,7 @@ Clone the template:
 
 cd where you want to create the service
 
-`copier streams-service-generator .`
+`copier copy streams-service-generator .`
 
 
 [NOTE] _streams-service-generator_ refers  to the relative folder where the template was checked out from github.
