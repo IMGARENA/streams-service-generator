@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: ${{ matrix.java-version }}
+          java-version: {{ "${{ matrix.java-version }}" }}
           cache: maven
 
       - name: Setup Node.js
@@ -78,13 +78,13 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: ${{ matrix.java-version }}
+          java-version: {{ "${{ matrix.java-version }}" }}
           cache: maven
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: {{ "${{ matrix.node-version }}" }}
 
       - name: Setup AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -146,7 +146,7 @@ jobs:
           SLACK_ICON: 'https://github.githubassets.com/images/modules/logos_page/Octocat.png'
           SLACK_USERNAME: 'GitHub'
           SLACK_CHANNEL: 'tech_streams_releases'
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: {{ "${{ secrets.SLACK_WEBHOOK_URL }}" }}
           SLACK_COLOR: '#109c00'
           MSG_MINIMAL: true
-          SLACK_MESSAGE: "Version *${{ needs.test_release.outputs.new-release-version }}* of `${{ github.repository }}` has been published. :ship:"
+          SLACK_MESSAGE: "Version *{{ "${{ needs.test_release.outputs.new-release-version }}" }}* of `{{ "${{ github.repository }}" }}` has been published. :ship:"

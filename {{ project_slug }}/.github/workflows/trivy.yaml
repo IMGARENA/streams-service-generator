@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [ self-hosted-ubuntu-2204 ]
-    runs-on: ${{ matrix.os }}
+    runs-on: {{ "${{ matrix.os }}" }}
     env:
       repo_name: "IMGARENA/{{ project_slug }}"
       image_name: "imgarena/streams/{{ project_slug }}"
@@ -31,28 +31,28 @@ jobs:
           registries: 724428741115
 
       - name: Set environment variables
-        run: echo "ecr_registry=${{ steps.login-ecr.outputs.registry }}/${{ env.image_name }}" >> $GITHUB_ENV
+        run: echo "ecr_registry={{ "${{ steps.login-ecr.outputs.registry }}" }}/{{ "${{ env.image_name }}" }}" >> $GITHUB_ENV
 
       - name: Get latest release
         uses: rez0n/actions-github-release@main
         id: latest_release
         env:
-          token: ${{ secrets.ACTION_GITHUB_TOKEN }}
-          repository: ${{ env.repo_name }}
+          token: {{ "${{ secrets.ACTION_GITHUB_TOKEN }}" }}
+          repository: {{ "${{ env.repo_name }}" }}
           type: "stable"
 
       - name: Remove 'v' from version
         run: |
-          version=${{ steps.latest_release.outputs.release }}
-          echo "version=${version#v}" >> $GITHUB_ENV
+          version={{ "${{ steps.latest_release.outputs.release }}" }}
+          echo "version={{ "${version#v}" }}" >> $GITHUB_ENV
 
       - name: Get latest docker images
-        run: docker pull ${{ env.ecr_registry }}:${{ env.version }}
+        run: docker pull {{ "${{ env.ecr_registry }}" }}:{{ "${{ env.version }}" }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '${{ env.ecr_registry }}:${{ env.version }}'
+          image-ref: '{{ "${{ env.ecr_registry }}" }}:{{ "${{ env.version }}" }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -61,13 +61,13 @@ jobs:
           timeout: '10m'
 
       - name: Send Slack notification
-        if: ${{ failure() }}
+        if: {{ "${{ failure() }}" }}
         uses: rtCamp/action-slack-notify@v2.2.0
         env:
           SLACK_ICON: 'https://www.freeiconspng.com/uploads/face-png-2.png'
           SLACK_USERNAME: 'Spartacus'
           SLACK_CHANNEL: 'tech_streams'
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: {{ "${{ secrets.SLACK_WEBHOOK_URL }}" }}
           SLACK_COLOR: '#FF0000'
           MSG_MINIMAL: true
-          SLACK_MESSAGE: "Spartans gather! :military_helmet:\n:alert:Enemy vulnerabilities have been found in ${{ env.repo_name }}\n See https://github.com/${{ env.repo_name }}/actions/runs/${{github.run_id}}"
+          SLACK_MESSAGE: "Spartans gather! :military_helmet:\n:alert:Enemy vulnerabilities have been found in {{ "${{ env.repo_name }}" }}\n See https://github.com/{{ "${{ env.repo_name }}" }}/actions/runs/{{ "${{github.run_id}}" }}"

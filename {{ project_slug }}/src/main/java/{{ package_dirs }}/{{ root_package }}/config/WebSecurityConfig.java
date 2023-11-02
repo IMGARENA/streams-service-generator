@@ -27,7 +27,7 @@ public class WebSecurityConfig {
         .authorizeRequests(
             authz ->
                 authz
-                    .antMatchers(
+                    .requestMatchers(
                         "/actuator/health",
                         "/actuator/health/liveness",
                         "/actuator/health/readiness",

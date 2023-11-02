@@ -31,13 +31,13 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: ${{ matrix.java-version }}
+          java-version: {{ "${{ matrix.java-version }}" }}
           cache: maven
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: {{ "${{ matrix.node-version }}" }}
 
       - name: Formatting check
         run: ./mvnw -B spotless:check
