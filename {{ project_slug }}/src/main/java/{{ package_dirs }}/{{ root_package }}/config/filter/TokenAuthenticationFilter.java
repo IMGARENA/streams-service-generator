@@ -2,16 +2,16 @@ package {{ base_package }}.{{ root_package }}.config.filter;
 
 import static java.util.Collections.singletonList;
 
-import com.endeavorco.dge.common.javadsl.security.InternalAuthenticator;
-import com.endeavorco.dge.common.javadsl.security.InternalAuthenticatorFactory;
-import com.endeavorco.dge.common.javadsl.security.User;
-import com.endeavorco.dge.common.javadsl.security.dto.InternalAuthHeader;
-import com.endeavorco.dge.common.javadsl.security.dto.InternalToken;
+import com.imgarena.auth.InternalAuthenticator;
+import com.imgarena.auth.InternalAuthenticatorFactory;
+import com.imgarena.auth.User;
+import com.imgarena.auth.dto.InternalAuthHeader;
+import com.imgarena.auth.dto.InternalToken;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

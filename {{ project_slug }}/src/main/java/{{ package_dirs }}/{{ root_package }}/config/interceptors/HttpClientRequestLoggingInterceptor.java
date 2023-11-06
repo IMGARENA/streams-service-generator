@@ -28,20 +28,26 @@ public class HttpClientRequestLoggingInterceptor implements ClientHttpRequestInt
       @NonNull byte[] body,
       @NonNull ClientHttpRequestExecution execution)
       throws IOException {
-    LOG.info(httpClientRequestLogMetadata(request.getURI().toString(), request.getMethodValue()), HTTP_CLIENT_REQUEST_LOG_EVENT);
+    LOG.info(
+        httpClientRequestLogMetadata(request.getURI().toString(), request.getMethodValue()),
+        HTTP_CLIENT_REQUEST_LOG_EVENT);
     Instant start = Instant.now();
 
     try {
       ClientHttpResponse response = execution.execute(request, body);
       LOG.info(
           httpClientResponseLogMetadata(
-              request.getURI().toString(), request.getMethodValue(),
-              getStatusCode(response), start),
+              request.getURI().toString(),
+              request.getMethodValue(),
+              getStatusCode(response),
+              start),
           HTTP_CLIENT_RESPONSE_LOG_EVENT);
       return response;
     } catch (Exception e) {
-      LOG.error(httpClientRequestLogMetadata(request.getURI().toString(), request.getMethodValue()),
-          HTTP_CLIENT_EXCEPTION_LOG_EVENT, e);
+      LOG.error(
+          httpClientRequestLogMetadata(request.getURI().toString(), request.getMethodValue()),
+          HTTP_CLIENT_EXCEPTION_LOG_EVENT,
+          e);
       throw e;
     }
   }
