@@ -4,13 +4,15 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 import {{ base_package }}.{{ root_package }}.config.filter.TokenAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@Configuration
+@EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
 
   private final TokenAuthenticationFilter tokenAuthenticationFilter;
