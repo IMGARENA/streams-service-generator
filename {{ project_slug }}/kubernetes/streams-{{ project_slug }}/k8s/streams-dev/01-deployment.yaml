@@ -29,14 +29,12 @@ spec:
           labelSelector:
             matchLabels:
               app: {{ project_slug }}
-              release: {{ project_slug }}
         - maxSkew: 1
-          topologyKey: kubernetes.io/hostname   # Must be spreaded across multiple nodes
+          topologyKey: kubernetes.io/hostname   # Must be spread across multiple nodes
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
               app: {{ project_slug }}
-              release: {{ project_slug }}
       containers:
         - image: 724428741115.dkr.ecr.eu-west-1.amazonaws.com/imgarena/streams/{{ project_slug }}:1.0.0
           name: {{ project_slug }}
