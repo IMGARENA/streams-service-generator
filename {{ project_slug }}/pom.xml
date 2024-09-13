@@ -161,10 +161,6 @@
                 <configuration>
                     <image>
                         <name>${dockerRegistry}/${project.artifactId}</name>
-                        <buildpacks>
-                            <buildpack>gcr.io/paketo-buildpacks/adoptium</buildpack>
-                            <buildpack>urn:cnb:builder:paketo-buildpacks/java</buildpack>
-                        </buildpacks>
                     </image>
                 </configuration>
             </plugin>
