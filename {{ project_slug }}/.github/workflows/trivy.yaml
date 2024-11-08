@@ -23,19 +23,27 @@ jobs:
         id: date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
-      - name: Download and extract the vulnerability DB
-        run: |
-          mkdir -p $GITHUB_WORKSPACE/.cache/trivy/db
-          oras pull ghcr.io/aquasecurity/trivy-db:2
-          tar -xzf db.tar.gz -C $GITHUB_WORKSPACE/.cache/trivy/db
-          rm db.tar.gz
+      - name: Download and extract the vulnerability DB with retry
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 10
+          command: |
+            mkdir -p $GITHUB_WORKSPACE/.cache/trivy/db
+            oras pull ghcr.io/aquasecurity/trivy-db:2
+            tar -xzf db.tar.gz -C $GITHUB_WORKSPACE/.cache/trivy/db
+            rm db.tar.gz
 
-      - name: Download and extract the Java DB
-        run: |
-          mkdir -p $GITHUB_WORKSPACE/.cache/trivy/java-db
-          oras pull ghcr.io/aquasecurity/trivy-java-db:1
-          tar -xzf javadb.tar.gz -C $GITHUB_WORKSPACE/.cache/trivy/java-db
-          rm javadb.tar.gz
+      - name: Download and extract the Java DB with retry
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 10
+          max_attempts: 10
+          command: |
+            mkdir -p $GITHUB_WORKSPACE/.cache/trivy/java-db
+            oras pull ghcr.io/aquasecurity/trivy-java-db:1
+            tar -xzf javadb.tar.gz -C $GITHUB_WORKSPACE/.cache/trivy/java-db
+            rm javadb.tar.gz
 
       - name: Cache DBs
         uses: actions/cache/save@v4
