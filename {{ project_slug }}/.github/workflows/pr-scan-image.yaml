@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ self-hosted-ubuntu-2204 ]
-        java-version: [ 17 ]
+        java-version: [ 21 ]
     runs-on: {{ "${{ matrix.os }}" }}
     env:
       GITHUB_TOKEN: {{ "${{ secrets.ACTION_GITHUB_TOKEN }}" }}
